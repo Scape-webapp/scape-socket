@@ -9,12 +9,16 @@ export async function onConnection(socket: Socket) {
   try {
     global.onlineUsers = new Map();
     socket.on("add-user", (userId) => {
-      onlineUsers.set(userId, socket.id);
+      console.log(userId.id);
+      onlineUsers.set(userId.id, socket.id);
     });
     socket.on("send-msg", async (data) => {
-      const sendUserData = onlineUsers.get(data.to);
+      console.log("server1");
+      const sendUserData = onlineUsers.get(data.reciever);
       if (sendUserData) {
-        socket.to(sendUserData).emit("msg-recieve", data.msg);
+        console.log(sendUserData);
+        socket.to(sendUserData).emit("msg-recieve", data.text);
+        console.log("server");
       }
       await createMessage(data);
     });
