@@ -11,7 +11,7 @@ import { Server } from "socket.io";
 dotenv.config();
 connectToMongo();
 const app: Express = express();
-const httpServer = createServer(app);
+const httpServer = http.createServer(app);
 const port = process.env.PORT;
 // const io: socketio.Server = new socketio.Server();
 // io.attach(httpServer);
@@ -28,15 +28,17 @@ app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Scape Socket Repository");
 });
+
 export const io = new Server(httpServer, {
   cors: {
     credentials: true,
     origin: "*",
   },
-  maxHttpBufferSize: 1e8, //* 100 MB
+  // maxHttpBufferSize: 1e8, //* 100 MB
 });
+
 io.on(SOCKET_EVENTS.CONNECTION, onConnection);
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
