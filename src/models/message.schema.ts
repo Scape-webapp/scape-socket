@@ -4,15 +4,13 @@ interface Message {
   // sender: [ObjectId];
   // reciever: [ObjectId];
   sender: any;
-  reciever: any;
+  receiver: any;
   text: string;
 }
 const messageSchema = new Schema<Message>(
   {
-    // sender: { type: [mongoose.Types.ObjectId], required: true },
-    // reciever: { type: [mongoose.Types.ObjectId], required: true },
-    sender: { type: String },
-    reciever: { type: String },
+    sender: { type: mongoose.Types.ObjectId, required: true },
+    receiver: { type: [mongoose.Types.ObjectId], required: true },
     text: { type: String },
   },
   { versionKey: false, timestamps: true }
