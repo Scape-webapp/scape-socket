@@ -9,11 +9,8 @@ export async function onConnection(socket: Socket) {
       onlineUsers.set(userId.id, socket.id);
     });
     socket.on("send-msg", async (data) => {
-      const sendUserData = onlineUsers.get(data.receiver[0]);
-
-      data.receiver.forEach((rec: any) => {
-        rec = new Types.ObjectId(rec);
-      });
+      const sendUserData = onlineUsers.get(data.receiver);
+      data.receiver = new Types.ObjectId(data.receiver);
       data.sender = new Types.ObjectId(data.sender);
       const newMsg = await createMessage(data);
       if (sendUserData) {

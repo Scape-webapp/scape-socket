@@ -1,8 +1,6 @@
 import mongoose, { Schema, model, ObjectId } from "mongoose";
 
 interface Message {
-  // sender: [ObjectId];
-  // reciever: [ObjectId];
   sender: any;
   receiver: any;
   text: string;
@@ -10,7 +8,7 @@ interface Message {
 const messageSchema = new Schema<Message>(
   {
     sender: { type: mongoose.Types.ObjectId, required: true },
-    receiver: { type: [mongoose.Types.ObjectId], required: true },
+    receiver: { type: mongoose.Types.ObjectId, required: true },
     text: { type: String },
   },
   { versionKey: false, timestamps: true }
