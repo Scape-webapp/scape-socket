@@ -7,6 +7,7 @@ import { SOCKET_EVENTS } from "./utils/common";
 import { onConnection } from "./controllers/message.controller";
 import { connectToMongo } from "./conn";
 import { Server } from "socket.io";
+import { authMiddleware } from "./middlewares/auth.guard";
 
 dotenv.config();
 connectToMongo();
@@ -37,6 +38,7 @@ export const io = new Server(httpServer, {
   // maxHttpBufferSize: 1e8, //* 100 MB
 });
 
+io.use(authMiddleware);
 io.on(SOCKET_EVENTS.CONNECTION, onConnection);
 
 httpServer.listen(port, () => {
