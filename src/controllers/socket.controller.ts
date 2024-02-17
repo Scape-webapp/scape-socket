@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { createMessage } from "../service/message.service";
 import { Types } from "mongoose";
-import { createGroup } from "../service/group.service";
+import { createGroup, findOneGroup } from "../service/group.service";
 
 let onlineUsers = new Map();
 export async function onConnection(socket: Socket) {
@@ -34,6 +34,24 @@ export async function onConnection(socket: Socket) {
         // socket.to hanles excluding to event's sender
         if (user) {
           socket.to(user).emit("added-to-group", group);
+        }
+      });
+    });
+
+    // create new group message
+    socket.on("send-grp-msg", async (data) => {
+      console.log({ data });
+      data.sender = new Types.ObjectId(data.sender);
+      data.groupId = new Types.ObjectId(data.groupId);
+      const newMsg = await createMessage(data);
+      const group: any = await findOneGroup(data.groupId);
+      console.log({ group });
+      // emit new message to online group user's
+      group.users.forEach((ele: any) => {
+        const user = onlineUsers.get(ele.toString());
+        console.log({ user });
+        if (user) {
+          socket.to(user).emit("msg-receive", newMsg);
         }
       });
     });
