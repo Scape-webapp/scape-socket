@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import { createServer } from "http";
 import * as http from "http";
 import { SOCKET_EVENTS } from "./utils/common";
-import { onConnection } from "./controllers/message.controller";
+import { onConnection } from "./controllers/socket.controller";
 import { connectToMongo } from "./conn";
 import { Server } from "socket.io";
 import { authMiddleware } from "./middlewares/auth.guard";
