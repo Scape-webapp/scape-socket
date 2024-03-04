@@ -40,17 +40,16 @@ export async function onConnection(socket: Socket) {
 
     //Group profile upadate 
       socket.on("update-grpprofile", async (data) => {
-        // const groupId = new Types.ObjectId(data._id);
-        
+        // const groupId = new Types.ObjectId(data._id);        
         console.log("data>>>",data);
-        const groupProfile = await updateProfile(data[0]._id);
-        console.log("grpProfile>>>>>>",groupProfile);
+        const groupProfile = await updateProfile(data[0]._id,{profile_image : data[0].profile_image});
+        console.log("grpProfile1>>>>>>",groupProfile);
         // send group created notification to all online users
         data[0].users.forEach((ele: any) => {
           const user = onlineUsers.get(ele.toString());
           if (user) {
             socket.to(user).emit("added-grpprofile", groupProfile);
-        console.log("grpProfile>>>>>>", groupProfile);
+        console.log("grp>>>>>>", groupProfile);
           }   
                  
         });
