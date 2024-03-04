@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { createMessage } from "../service/message.service";
 import { Types } from "mongoose";
-import { createGroup, findOneGroup } from "../service/group.service";
+import { createGroup, findOneGroup, updateProfile } from "../service/group.service";
 
 let onlineUsers = new Map();
 export async function onConnection(socket: Socket) {
@@ -38,6 +38,23 @@ export async function onConnection(socket: Socket) {
       });
     });
 
+    //Group profile upadate 
+      socket.on("update-grpprofile", async (data) => {
+        // const groupId = new Types.ObjectId(data._id);
+        
+        console.log("data>>>",data);
+        const groupProfile = await updateProfile(data[0]._id);
+        console.log("grpProfile>>>>>>",groupProfile);
+        // send group created notification to all online users
+        data[0].users.forEach((ele: any) => {
+          const user = onlineUsers.get(ele.toString());
+          if (user) {
+            socket.to(user).emit("added-grpprofile", groupProfile);
+        console.log("grpProfile>>>>>>", groupProfile);
+          }   
+                 
+        });
+      });
     // create new group message
     socket.on("send-grp-msg", async (data) => {
       data.sender = new Types.ObjectId(data.sender);
