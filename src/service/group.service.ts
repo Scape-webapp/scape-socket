@@ -8,8 +8,7 @@ export const findOneGroup = (id: string) => {
   return groupSchema.findById(id);
 };
 
-export const updateProfile=(id:string,reqBody:any)=>{
+export const updateProfile = (id: string, reqBody: any) => {
   //add auth gaurd
- 
-  return groupSchema.findByIdAndUpdate(id,reqBody,{new:true});
-}
+  return groupSchema.findByIdAndUpdate(id, reqBody, { new: true });
+};
