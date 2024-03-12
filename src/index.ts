@@ -1,4 +1,5 @@
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+const dotenv =require('dotenv');
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import * as http from "http";
