@@ -17,13 +17,13 @@ const port = process.env.PORT;
 // const io: socketio.Server = new socketio.Server();
 // io.attach(httpServer);
 
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000", process.env.FRONTEND_URL as string];
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };
 
 app.use(express.static("public"));
-app.use(cors());
+app.use(cors(options));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
