@@ -7,6 +7,7 @@ interface Message {
   text: string;
   image: string;
   archive: any;
+  sender_profile_image: string;
 }
 const messageSchema = new Schema<Message>(
   {
@@ -19,6 +20,7 @@ const messageSchema = new Schema<Message>(
       type: [mongoose.Types.ObjectId],
       default: [],
     },
+    sender_profile_image: { type: String },
   },
   { versionKey: false, timestamps: true }
 );
