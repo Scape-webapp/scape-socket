@@ -63,7 +63,9 @@ export async function onConnection(socket: Socket) {
     socket.on("send-grp-msg", async (data) => {
       data.sender = new Types.ObjectId(data.sender);
       data.groupId = new Types.ObjectId(data.groupId);
+      console.log("data before create msg : ", data);
       const newMsg = await createMessage(data);
+      console.log("data after create image : ", data);
       const group: any = await findOneGroup(data.groupId);
       // emit new message to online group user's
       group.users.forEach((ele: any) => {
